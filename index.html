@@ -874,7 +874,7 @@
 
       processFieldWork() {
         const targetStageDone = this.stage + 1;
-        const workRadius = Math.max(this.fieldRect.tileW, this.fieldRect.tileH) * 0.68;
+        const workRadius = Math.max(this.fieldRect.tileW, this.fieldRect.tileH) * 0.75;
 
         let completedCount = 0;
         for (const t of this.tiles) {
@@ -1350,7 +1350,7 @@
       drawVehicle(ctx) {
         const { x, y, facing, bobPhase, wheelPhase, scale } = this.vehicle;
         const bobY = Math.sin(bobPhase) * 2.5;
-        const baseSize = Math.min(this.fieldRect.tileW, this.fieldRect.tileH) * 0.72;
+        const baseSize = Math.min(this.fieldRect.tileW, this.fieldRect.tileH) * 1.08;
 
         ctx.save();
         ctx.translate(x, y + bobY);
@@ -1662,8 +1662,8 @@
         // Center Preview: Selected-Color Tractor & Next Crop Icon
         const previewY = cardY + cardH * 0.5;
         ctx.save();
-        ctx.translate(this.width * 0.38, previewY + 6);
-        this.drawTractorWithAttachment(ctx, Math.min(68, cardH * 0.24), this.globalTime * 4, 0);
+        ctx.translate(this.width * 0.38, previewY + 8);
+        this.drawTractorWithAttachment(ctx, Math.min(92, cardH * 0.32), this.globalTime * 4, 0);
         ctx.restore();
 
         // Arrow -> Next Crop Preview
