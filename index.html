@@ -262,8 +262,10 @@
         this.engineTimer = 0;
         this.bgmTimer = 0;
         this.bgmStep = 0;
-        // Cheerful, gentle toddler farm melody (C major pentatonic / pastoral feel)
-        this.bgmNotes = [
+        this.currentBgmType = 0;
+
+        // BGM 1 (Stages 0-1: Cut Grass & Plow) - Gentle pastoral melody
+        this.bgmWorkNotes = [
           523.25, 0, 659.25, 783.99,
           880.00, 783.99, 659.25, 523.25,
           587.33, 0, 659.25, 587.33,
@@ -272,6 +274,18 @@
           880.00, 783.99, 659.25, 0,
           587.33, 659.25, 587.33, 493.88,
           523.25, 0, 523.25, 0
+        ];
+
+        // BGM 2 (Stages 2-4: Sow, Water & Harvest) - Happy, bouncy, upbeat farm melody!
+        this.bgmHappyNotes = [
+          659.25, 783.99, 1046.50, 783.99,
+          880.00, 1046.50, 1174.66, 1046.50,
+          783.99, 880.00, 1046.50, 880.00,
+          659.25, 783.99, 587.33, 0,
+          659.25, 783.99, 1046.50, 1318.51,
+          1174.66, 1046.50, 880.00, 1046.50,
+          783.99, 1046.50, 880.00, 783.99,
+          1046.50, 0, 1046.50, 0
         ];
       }
 
@@ -296,13 +310,25 @@
         return this.muted;
       }
 
-      updateBGM(dt, isPlayingState) {
+      updateBGM(dt, isPlayingState, stage = 0) {
         if (this.muted || !this.ctx || this.ctx.state !== 'running' || !isPlayingState) return;
+
+        // Type 0: Cut & Plow (stages 0, 1) | Type 1: Sow, Water & Harvest (stages 2, 3, 4)
+        const bgmType = stage >= 2 ? 1 : 0;
+        if (this.currentBgmType !== bgmType) {
+          this.currentBgmType = bgmType;
+          this.bgmStep = 0;
+          this.bgmTimer = 0;
+        }
+
         this.bgmTimer -= dt;
         if (this.bgmTimer <= 0) {
-          this.bgmTimer = 0.34; // Gentle, relaxed tempo for 3-year-olds
-          const freq = this.bgmNotes[this.bgmStep % this.bgmNotes.length];
+          const isHappy = bgmType === 1;
+          this.bgmTimer = isHappy ? 0.27 : 0.34; // Happy BGM has a slightly brighter, bouncier tempo
+          const notes = isHappy ? this.bgmHappyNotes : this.bgmWorkNotes;
+          const freq = notes[this.bgmStep % notes.length];
           const isDownbeat = this.bgmStep % 4 === 0;
+          const isOffbeat = this.bgmStep % 4 === 2;
           this.bgmStep++;
 
           try {
@@ -310,33 +336,38 @@
             if (freq > 0) {
               const osc = this.ctx.createOscillator();
               const gain = this.ctx.createGain();
-              osc.type = 'sine';
+              osc.type = isHappy ? 'triangle' : 'sine';
               osc.frequency.setValueAtTime(freq, now);
 
+              const peakGain = isHappy ? 0.046 : 0.042;
+              const noteLen = isHappy ? 0.24 : 0.31;
               gain.gain.setValueAtTime(0.001, now);
-              gain.gain.linearRampToValueAtTime(0.042, now + 0.02);
-              gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.31);
+              gain.gain.linearRampToValueAtTime(peakGain, now + 0.018);
+              gain.gain.exponentialRampToValueAtTime(0.0008, now + noteLen);
 
               osc.connect(gain);
               gain.connect(this.ctx.destination);
               osc.start(now);
-              osc.stop(now + 0.32);
+              osc.stop(now + noteLen + 0.01);
             }
 
-            if (isDownbeat) {
+            if (isDownbeat || (isHappy && isOffbeat)) {
               const bass = this.ctx.createOscillator();
               const bGain = this.ctx.createGain();
               bass.type = 'triangle';
-              bass.frequency.setValueAtTime(freq === 587.33 ? 146.83 : 130.81, now);
+              const bassFreq = isHappy
+                ? (isDownbeat ? 261.63 : 392.00) // Bouncy C-G oom-pah accompaniment
+                : (freq === 587.33 ? 146.83 : 130.81);
+              bass.frequency.setValueAtTime(bassFreq, now);
 
               bGain.gain.setValueAtTime(0.001, now);
-              bGain.gain.linearRampToValueAtTime(0.028, now + 0.02);
-              bGain.gain.exponentialRampToValueAtTime(0.0008, now + 0.28);
+              bGain.gain.linearRampToValueAtTime(isHappy ? 0.024 : 0.028, now + 0.018);
+              bGain.gain.exponentialRampToValueAtTime(0.0008, now + 0.22);
 
               bass.connect(bGain);
               bGain.connect(this.ctx.destination);
               bass.start(now);
-              bass.stop(now + 0.29);
+              bass.stop(now + 0.23);
             }
           } catch (e) {}
         }
@@ -810,7 +841,11 @@
       // =========================================================================
       update(dt) {
         this.globalTime += dt;
-        this.sound.updateBGM(dt, this.gameState === 'PLAYING' || this.gameState === 'STAGE_TRANSITION');
+        const bgmActive =
+          this.gameState === 'PLAYING' ||
+          this.gameState === 'STAGE_TRANSITION' ||
+          this.gameState === 'GROWING';
+        this.sound.updateBGM(dt, bgmActive, this.stage);
 
         // Drift clouds
         for (const c of this.clouds) {
