@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="のうぎょうゲーム" />
+  <meta name="theme-color" content="#56ab2f" />
+  <title>わくわくのうじょう</title>
+  <script>
+    // Dynamically generate high-resolution App Icon & Web App Manifest (single-file PWA)
+    (function initPWA() {
+      function createIconDataURL(size) {
+        const c = document.createElement('canvas');
+        c.width = size;
+        c.height = size;
+        const ctx = c.getContext('2d');
+        const s = size / 512;
+        ctx.scale(s, s);
+
+        // Sunny Sky Background
+        const sky = ctx.createLinearGradient(0, 0, 0, 340);
+        sky.addColorStop(0, '#38bdf8');
+        sky.addColorStop(1, '#bae6fd');
+        ctx.fillStyle = sky;
+        ctx.fillRect(0, 0, 512, 512);
+
+        // Bright Sun
+        ctx.fillStyle = '#fde047';
+        ctx.beginPath();
+        ctx.arc(415, 96, 48, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Fluffy Cloud
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+        ctx.beginPath();
+        ctx.arc(110, 105, 34, 0, Math.PI * 2);
+        ctx.arc(146, 96, 40, 0, Math.PI * 2);
+        ctx.arc(185, 106, 30, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Rolling Lush Green Hill
+        ctx.fillStyle = '#56ab2f';
+        ctx.beginPath();
+        ctx.ellipse(256, 430, 360, 175, 0, Math.PI, 0);
+        ctx.fill();
+        ctx.fillRect(0, 420, 512, 100);
+
+        // Foreground Meadow Highlight
+        ctx.fillStyle = '#7ec850';
+        ctx.beginPath();
+        ctx.ellipse(256, 470, 340, 130, 0, Math.PI, 0);
+        ctx.fill();
+
+        // Cute Red & Yellow Tractor
+        ctx.save();
+        ctx.translate(230, 325);
+        ctx.fillStyle = '#334155';
+        ctx.beginPath();
+        ctx.roundRect(42, -96, 18, 52, 6);
+        ctx.fill();
+
+        ctx.fillStyle = '#ef4444';
+        ctx.strokeStyle = '#991b1b';
+        ctx.lineWidth = 8;
+        ctx.beginPath();
+        ctx.roundRect(-95, -100, 110, 110, 20);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#e0f2fe';
+        ctx.beginPath();
+        ctx.roundRect(-76, -82, 74, 62, 12);
+        ctx.fill();
+
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.roundRect(-6, -38, 122, 88, 20);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#facc15';
+        ctx.beginPath();
+        ctx.roundRect(12, -16, 86, 18, 8);
+        ctx.fill();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(86, -4, 22, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.arc(92, -4, 11, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#1e293b';
+        ctx.beginPath();
+        ctx.arc(-56, 58, 58, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#facc15';
+        ctx.beginPath();
+        ctx.arc(-56, 58, 28, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#1e293b';
+        ctx.beginPath();
+        ctx.arc(76, 70, 40, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#facc15';
+        ctx.beginPath();
+        ctx.arc(76, 70, 19, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // Cute Strawberry Motif
+        ctx.save();
+        ctx.translate(415, 375);
+        ctx.fillStyle = '#f43f5e';
+        ctx.strokeStyle = '#be123c';
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.moveTo(-42, -24);
+        ctx.quadraticCurveTo(42, -24, 0, 52);
+        ctx.quadraticCurveTo(-42, -24, -42, -24);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = '#22c55e';
+        ctx.beginPath();
+        ctx.ellipse(0, -26, 34, 13, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#fef08a';
+        ctx.beginPath();
+        ctx.arc(-12, 0, 3.5, 0, Math.PI * 2);
+        ctx.arc(12, 0, 3.5, 0, Math.PI * 2);
+        ctx.arc(0, 18, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        return c.toDataURL('image/png');
+      }
+
+      try {
+        const icon512 = createIconDataURL(512);
+        const icon192 = createIconDataURL(192);
+
+        const appleIcon = document.createElement('link');
+        appleIcon.rel = 'apple-touch-icon';
+        appleIcon.sizes = '180x180';
+        appleIcon.href = icon512;
+        document.head.appendChild(appleIcon);
+
+        const favIcon = document.createElement('link');
+        favIcon.rel = 'icon';
+        favIcon.type = 'image/png';
+        favIcon.href = icon192;
+        document.head.appendChild(favIcon);
+
+        const manifest = {
+          name: 'のうぎょうゲーム',
+          short_name: 'のうぎょう',
+          start_url: '.',
+          display: 'standalone',
+          orientation: 'landscape',
+          background_color: '#7ec850',
+          theme_color: '#56ab2f',
+          icons: [
+            { src: icon192, sizes: '192x192', type: 'image/png' },
+            { src: icon512, sizes: '512x512', type: 'image/png' }
+          ]
+        };
+        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+        const manifestLink = document.createElement('link');
+        manifestLink.rel = 'manifest';
+        manifestLink.href = URL.createObjectURL(blob);
+        document.head.appendChild(manifestLink);
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sar: env(safe-area-inset-right, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+      --sal: env(safe-area-inset-left, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    html, body {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
+      background-color: #7ec850;
+      touch-action: none;
+      font-family: 'Hiragino Maru Gothic ProN', 'Rounded Mplus 1c', sans-serif;
+    }
+
+    #game-container {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+    }
+
+    /* Hide any injected Netlify Drawer / floating badge to prevent accidental toddler taps */
+    #netlify-drawer,
+    iframe[src*="netlify"],
+    [data-netlify-drawer] {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      opacity: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="gameCanvas"></canvas>
+  </div>
+
+  <script>
+    /**
+     * わくわくのうじょう (Toddler-Friendly Interactive Farming Game)
+     * - Designed for 3-year-olds on smartphone landscape
+     * - Zero reading required: 100% visual icons & picture-book vector art
+     * - Touch/drag intuitive steering + generous radius + 92% auto-complete assist
+     * - Crop rotation: 米 -> トマト -> トウモロコシ -> いちご
+     * - Post-goal vehicle color customization & new game loop
+     */
+
+    // =========================================================================
+    // 1. SOUND ENGINE (Web Audio API Synthesized SFX)
+    // =========================================================================
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.muted = false;
+        this.engineTimer = 0;
+      }
+
+      unlock() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) {
+            this.ctx = new AudioCtx();
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume().catch(() => {});
+        }
+      }
+
+      toggleMute() {
+        this.muted = !this.muted;
+        if (!this.muted) {
+          this.unlock();
+          this.playPop(520, 0.08);
+        }
+        return this.muted;
+      }
+
+      updateEngine(dt, isMoving, isCombine) {
+        if (this.muted || !this.ctx || !isMoving) return;
+        this.engineTimer -= dt;
+        if (this.engineTimer <= 0) {
+          this.engineTimer = isCombine ? 0.11 : 0.13;
+          try {
+            const now = this.ctx.currentTime;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'triangle';
+            const baseFreq = isCombine ? 72 : 86;
+            osc.frequency.setValueAtTime(baseFreq + Math.random() * 14, now);
+            osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.65, now + 0.08);
+
+            gain.gain.setValueAtTime(0.055, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.095);
+          } catch (e) {}
+        }
+      }
+
+      playCut() {
+        if (this.muted || !this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(420 + Math.random() * 160, now);
+          osc.frequency.exponentialRampToValueAtTime(190, now + 0.07);
+
+          gain.gain.setValueAtTime(0.09, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.075);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } catch (e) {}
+      }
+
+      playPlow() {
+        if (this.muted || !this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(175 + Math.random() * 35, now);
+          osc.frequency.exponentialRampToValueAtTime(75, now + 0.09);
+
+          gain.gain.setValueAtTime(0.11, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.095);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.1);
+        } catch (e) {}
+      }
+
+      playSeed() {
+        if (this.muted || !this.ctx) return;
+        this.playPop(580 + Math.random() * 180, 0.07);
+      }
+
+      playWater() {
+        if (this.muted || !this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          const startF = 650 + Math.random() * 350;
+          osc.frequency.setValueAtTime(startF, now);
+          osc.frequency.exponentialRampToValueAtTime(startF * 1.45, now + 0.09);
+
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.095);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.1);
+        } catch (e) {}
+      }
+
+      playHarvest(combo = 0) {
+        if (this.muted || !this.ctx) return;
+        const scale = [523.25, 587.33, 659.25, 783.99, 880.0, 1046.5];
+        const freq = scale[combo % scale.length];
+        this.playPop(freq, 0.12);
+      }
+
+      playPop(freq = 520, duration = 0.09) {
+        if (this.muted || !this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now);
+          osc.frequency.exponentialRampToValueAtTime(freq * 1.25, now + duration);
+
+          gain.gain.setValueAtTime(0.11, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + duration + 0.01);
+        } catch (e) {}
+      }
+
+      playStageClear() {
+        if (this.muted || !this.ctx) return;
+        const notes = [523.25, 659.25, 783.99, 1046.5];
+        notes.forEach((freq, idx) => {
+          setTimeout(() => this.playNote(freq, 0.16, 'triangle', 0.13), idx * 95);
+        });
+      }
+
+      playGrow() {
+        if (this.muted || !this.ctx) return;
+        const notes = [440, 554.37, 659.25, 880, 1108.73];
+        notes.forEach((freq, idx) => {
+          setTimeout(() => this.playNote(freq, 0.22, 'sine', 0.1), idx * 110);
+        });
+      }
+
+      playFanfare() {
+        if (this.muted || !this.ctx) return;
+        const melody = [
+          { f: 523.25, t: 0, d: 0.14 },
+          { f: 523.25, t: 150, d: 0.14 },
+          { f: 523.25, t: 300, d: 0.14 },
+          { f: 659.25, t: 460, d: 0.28 },
+          { f: 587.33, t: 760, d: 0.22 },
+          { f: 659.25, t: 1000, d: 0.22 },
+          { f: 783.99, t: 1250, d: 0.45 }
+        ];
+        melody.forEach(n => {
+          setTimeout(() => this.playNote(n.f, n.d, 'triangle', 0.16), n.t);
+        });
+      }
+
+      playNote(freq, duration, type = 'triangle', volume = 0.12) {
+        if (this.muted || !this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, now);
+
+          gain.gain.setValueAtTime(volume, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + duration + 0.02);
+        } catch (e) {}
+      }
+    }
+
+    // =========================================================================
+    // 2. GAME DATA & CONFIGURATION
+    // =========================================================================
+    const CROPS = [
+      { id: 'rice',       color: '#fbbf24', accent: '#f59e0b', leaf: '#65a30d' }, // 米
+      { id: 'tomato',     color: '#ef4444', accent: '#b91c1c', leaf: '#16a34a' }, // トマト
+      { id: 'corn',       color: '#facc15', accent: '#eab308', leaf: '#22c55e' }, // トウモロコシ
+      { id: 'strawberry', color: '#f43f5e', accent: '#be123c', leaf: '#15803d' }  // いちご
+    ];
+
+    const VEHICLE_PALETTE = [
+      { id: 'red',    main: '#ef4444', dark: '#b91c1c', light: '#fca5a5' },
+      { id: 'blue',   main: '#3b82f6', dark: '#1d4ed8', light: '#93c5fd' },
+      { id: 'yellow', main: '#f59e0b', dark: '#b45309', light: '#fde047' },
+      { id: 'green',  main: '#22c55e', dark: '#15803d', light: '#86efac' },
+      { id: 'pink',   main: '#ec4899', dark: '#be185d', light: '#f9a8d4' },
+      { id: 'orange', main: '#f97316', dark: '#c2410c', light: '#fdba74' }
+    ];
+
+    // Stages: 0=Cut Grass, 1=Plow, 2=Sow Seeds, 3=Water, 4=Harvest
+    const STAGE_COUNT = 5;
+
+    // =========================================================================
+    // 3. MAIN GAME ENGINE
+    // =========================================================================
+    class FarmingGame {
+      constructor() {
+        this.canvas = document.getElementById('gameCanvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.sound = new SoundEngine();
+
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        this.cropIndex = 0; // 0: rice, 1: tomato, 2: corn, 3: strawberry
+        this.vehicleColor = VEHICLE_PALETTE[0];
+        this.stage = 0; // 0..4
+        this.gameState = 'PLAYING'; // 'PLAYING' | 'GROWING' | 'STAGE_TRANSITION' | 'GOAL'
+
+        this.cols = 8;
+        this.rows = 5;
+        this.tiles = [];
+        this.fieldRect = { x: 0, y: 0, w: 0, h: 0, tileW: 0, tileH: 0 };
+        this.safeInsets = { top: 0, right: 0, bottom: 0, left: 0 };
+
+        this.vehicle = {
+          x: 0,
+          y: 0,
+          vx: 0,
+          vy: 0,
+          facing: 1,
+          bobPhase: 0,
+          wheelPhase: 0,
+          scale: 1
+        };
+
+        this.pointer = {
+          active: false,
+          x: 0,
+          y: 0,
+          targetX: null,
+          targetY: null,
+          idleTimer: 0
+        };
+
+        this.particles = [];
+        this.flyingCrops = [];
+        this.confetti = [];
+        this.clouds = [
+          { x: 0.15, y: 0.08, s: 1.0, speed: 0.008 },
+          { x: 0.55, y: 0.06, s: 0.85, speed: 0.006 },
+          { x: 0.85, y: 0.11, s: 1.1, speed: 0.009 }
+        ];
+
+        this.globalTime = 0;
+        this.stateTimer = 0;
+        this.harvestCombo = 0;
+        this.autoCompleteTriggered = false;
+
+        this.muteBtnRect = { x: 0, y: 0, r: 24 };
+        this.goalColorButtons = [];
+        this.goalPlayButton = { x: 0, y: 0, r: 48 };
+
+        this.resize();
+        this.initField();
+        this.bindEvents();
+      }
+
+      get currentCrop() {
+        return CROPS[this.cropIndex % CROPS.length];
+      }
+
+      get nextCrop() {
+        return CROPS[(this.cropIndex + 1) % CROPS.length];
+      }
+
+      resize() {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        this.canvas.width = Math.floor(this.width * this.dpr);
+        this.canvas.height = Math.floor(this.height * this.dpr);
+        this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+
+        const rootStyle = getComputedStyle(document.documentElement);
+        const safeTop = parseFloat(rootStyle.getPropertyValue('--sat')) || 0;
+        const safeRight = parseFloat(rootStyle.getPropertyValue('--sar')) || 0;
+        const safeBottom = parseFloat(rootStyle.getPropertyValue('--sab')) || 0;
+        const safeLeft = parseFloat(rootStyle.getPropertyValue('--sal')) || 0;
+        this.safeInsets = { top: safeTop, right: safeRight, bottom: safeBottom, left: safeLeft };
+
+        const topHudHeight = safeTop + Math.max(66, Math.min(86, (this.height - safeTop) * 0.16));
+        const marginX = Math.max(24, this.width * 0.04) + Math.max(safeLeft, safeRight);
+        const marginBottom = Math.max(20, this.height * 0.05) + safeBottom;
+
+        const availW = this.width - marginX * 2;
+        const availH = this.height - topHudHeight - marginBottom;
+
+        this.fieldRect.w = availW;
+        this.fieldRect.h = availH;
+        this.fieldRect.x = marginX;
+        this.fieldRect.y = topHudHeight;
+        this.fieldRect.tileW = availW / this.cols;
+        this.fieldRect.tileH = availH / this.rows;
+
+        if (this.tiles.length > 0) {
+          for (const t of this.tiles) {
+            t.x = this.fieldRect.x + t.c * this.fieldRect.tileW;
+            t.y = this.fieldRect.y + t.r * this.fieldRect.tileH;
+            t.w = this.fieldRect.tileW;
+            t.h = this.fieldRect.tileH;
+            t.cx = t.x + t.w * 0.5;
+            t.cy = t.y + t.h * 0.5;
+          }
+        }
+
+        if (this.vehicle.x === 0 && this.vehicle.y === 0) {
+          this.vehicle.x = this.fieldRect.x + this.fieldRect.tileW * 0.8;
+          this.vehicle.y = this.fieldRect.y + this.fieldRect.h * 0.5;
+        } else {
+          this.vehicle.x = Math.max(this.fieldRect.x, Math.min(this.fieldRect.x + this.fieldRect.w, this.vehicle.x));
+          this.vehicle.y = Math.max(this.fieldRect.y, Math.min(this.fieldRect.y + this.fieldRect.h, this.vehicle.y));
+        }
+
+        const hudInnerH = topHudHeight - safeTop;
+        this.muteBtnRect = {
+          x: this.width - safeRight - Math.max(36, this.width * 0.038),
+          y: safeTop + hudInnerH * 0.5,
+          r: Math.min(24, hudInnerH * 0.34)
+        };
+      }
+
+      initField() {
+        this.tiles = [];
+        this.stage = 0;
+        this.gameState = 'PLAYING';
+        this.autoCompleteTriggered = false;
+        this.harvestCombo = 0;
+        this.particles = [];
+        this.flyingCrops = [];
+        this.confetti = [];
+        this.pointer.targetX = null;
+        this.pointer.targetY = null;
+        this.pointer.idleTimer = 0;
+
+        for (let r = 0; r < this.rows; r++) {
+          for (let c = 0; c < this.cols; c++) {
+            const x = this.fieldRect.x + c * this.fieldRect.tileW;
+            const y = this.fieldRect.y + r * this.fieldRect.tileH;
+            const weeds = [];
+            const weedCount = 3 + ((r + c) % 2);
+            for (let i = 0; i < weedCount; i++) {
+              weeds.push({
+                ox: (Math.random() - 0.5) * 0.55,
+                oy: (Math.random() - 0.5) * 0.55,
+                h: 0.7 + Math.random() * 0.5,
+                hasBush: (r + c + i) % 4 === 0,
+                swayOffset: Math.random() * Math.PI * 2
+              });
+            }
+
+            this.tiles.push({
+              r,
+              c,
+              x,
+              y,
+              w: this.fieldRect.tileW,
+              h: this.fieldRect.tileH,
+              cx: x + this.fieldRect.tileW * 0.5,
+              cy: y + this.fieldRect.tileH * 0.5,
+              stageDone: 0, // 0: overgrown, 1: cleared, 2: plowed, 3: seeded, 4: watered, 5: harvested
+              growth: 0,    // 0..1 visual growth scale
+              popAnim: 0,
+              weeds
+            });
+          }
+        }
+      }
+
+      startNewGameWithNextCrop() {
+        this.cropIndex = (this.cropIndex + 1) % CROPS.length;
+        this.sound.playStageClear();
+        this.initField();
+      }
+
+      bindEvents() {
+        window.addEventListener('resize', () => this.resize());
+        window.addEventListener('contextmenu', (e) => e.preventDefault());
+
+        const getPos = (e) => {
+          const rect = this.canvas.getBoundingClientRect();
+          const clientX = e.touches && e.touches.length > 0 ? e.touches[0].clientX : e.clientX;
+          const clientY = e.touches && e.touches.length > 0 ? e.touches[0].clientY : e.clientY;
+          return {
+            x: clientX - rect.left,
+            y: clientY - rect.top
+          };
+        };
+
+        const handleStart = (e) => {
+          if (e.cancelable) e.preventDefault();
+          this.sound.unlock();
+          const pos = getPos(e);
+          this.pointer.active = true;
+          this.pointer.x = pos.x;
+          this.pointer.y = pos.y;
+          this.pointer.idleTimer = 0;
+
+          // Check top-right mute button
+          const distMute = Math.hypot(pos.x - this.muteBtnRect.x, pos.y - this.muteBtnRect.y);
+          if (distMute <= this.muteBtnRect.r + 12) {
+            this.sound.toggleMute();
+            return;
+          }
+
+          // Check GOAL screen buttons
+          if (this.gameState === 'GOAL') {
+            for (const btn of this.goalColorButtons) {
+              if (Math.hypot(pos.x - btn.x, pos.y - btn.y) <= btn.r + 10) {
+                this.vehicleColor = btn.palette;
+                this.sound.playPop(560, 0.09);
+                this.spawnSparkles(btn.x, btn.y, btn.palette.main, 12);
+                return;
+              }
+            }
+            if (Math.hypot(pos.x - this.goalPlayButton.x, pos.y - this.goalPlayButton.y) <= this.goalPlayButton.r + 14) {
+              this.startNewGameWithNextCrop();
+              return;
+            }
+            return;
+          }
+
+          if (this.gameState === 'PLAYING') {
+            this.setVehicleTarget(pos.x, pos.y);
+          }
+        };
+
+        const handleMove = (e) => {
+          if (!this.pointer.active) return;
+          if (e.cancelable) e.preventDefault();
+          const pos = getPos(e);
+          this.pointer.x = pos.x;
+          this.pointer.y = pos.y;
+          this.pointer.idleTimer = 0;
+
+          if (this.gameState === 'PLAYING') {
+            this.setVehicleTarget(pos.x, pos.y);
+          }
+        };
+
+        const handleEnd = () => {
+          this.pointer.active = false;
+        };
+
+        this.canvas.addEventListener('touchstart', handleStart, { passive: false });
+        this.canvas.addEventListener('touchmove', handleMove, { passive: false });
+        this.canvas.addEventListener('touchend', handleEnd);
+        this.canvas.addEventListener('touchcancel', handleEnd);
+
+        this.canvas.addEventListener('mousedown', handleStart);
+        window.addEventListener('mousemove', handleMove);
+        window.addEventListener('mouseup', handleEnd);
+      }
+
+      setVehicleTarget(x, y) {
+        const padX = this.fieldRect.tileW * 0.25;
+        const padY = this.fieldRect.tileH * 0.25;
+        this.pointer.targetX = Math.max(this.fieldRect.x + padX, Math.min(this.fieldRect.x + this.fieldRect.w - padX, x));
+        this.pointer.targetY = Math.max(this.fieldRect.y + padY, Math.min(this.fieldRect.y + this.fieldRect.h - padY, y));
+      }
+
+      // =========================================================================
+      // 4. UPDATE LOOP
+      // =========================================================================
+      update(dt) {
+        this.globalTime += dt;
+
+        // Drift clouds
+        for (const c of this.clouds) {
+          c.x += c.speed * dt;
+          if (c.x > 1.15) c.x = -0.15;
+        }
+
+        // Update tile pop animations
+        for (const t of this.tiles) {
+          if (t.popAnim > 0) {
+            t.popAnim = Math.max(0, t.popAnim - dt * 3.5);
+          }
+        }
+
+        // Update particles
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+          const p = this.particles[i];
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.vy += (p.gravity || 0) * dt;
+          p.life -= dt;
+          if (p.life <= 0) {
+            this.particles.splice(i, 1);
+          }
+        }
+
+        // Update flying harvested crops
+        for (let i = this.flyingCrops.length - 1; i >= 0; i--) {
+          const fc = this.flyingCrops[i];
+          fc.progress += dt * 1.9;
+          if (fc.progress >= 1) {
+            this.flyingCrops.splice(i, 1);
+          }
+        }
+
+        // Update confetti on GOAL screen
+        if (this.gameState === 'GOAL') {
+          for (const cf of this.confetti) {
+            cf.y += cf.vy * dt;
+            cf.x += Math.sin(this.globalTime * 3 + cf.phase) * 45 * dt;
+            cf.rot += cf.vRot * dt;
+            if (cf.y > this.height + 20) {
+              cf.y = -20;
+              cf.x = Math.random() * this.width;
+            }
+          }
+          return;
+        }
+
+        // Handle crop growth sequence after watering
+        if (this.gameState === 'GROWING') {
+          this.stateTimer += dt;
+          const growthRatio = Math.min(1, this.stateTimer / 1.45);
+          for (const t of this.tiles) {
+            t.growth = growthRatio;
+          }
+          if (this.stateTimer >= 1.65) {
+            this.stage = 4; // Switch to Combine Harvester
+            this.gameState = 'PLAYING';
+            this.autoCompleteTriggered = false;
+            this.vehicle.scale = 1.25;
+            this.sound.playStageClear();
+            this.spawnSparkles(this.vehicle.x, this.vehicle.y, '#facc15', 22);
+          }
+          return;
+        }
+
+        // Handle brief pause between stages
+        if (this.gameState === 'STAGE_TRANSITION') {
+          this.stateTimer += dt;
+          if (this.stateTimer >= 0.65) {
+            this.stage++;
+            this.gameState = 'PLAYING';
+            this.autoCompleteTriggered = false;
+            this.vehicle.scale = 1.22;
+          }
+          return;
+        }
+
+        // PLAYING state: Move vehicle toward pointer target
+        this.vehicle.scale += (1 - this.vehicle.scale) * Math.min(1, dt * 8);
+        let isMoving = false;
+
+        if (this.pointer.targetX !== null && this.pointer.targetY !== null) {
+          const dx = this.pointer.targetX - this.vehicle.x;
+          const dy = this.pointer.targetY - this.vehicle.y;
+          const dist = Math.hypot(dx, dy);
+
+          if (dist > 6) {
+            isMoving = true;
+            const maxSpeed = Math.max(360, this.width * 0.56);
+            const speed = Math.min(maxSpeed, dist * 7.5);
+            const vx = (dx / dist) * speed;
+            const vy = (dy / dist) * speed;
+
+            this.vehicle.x += vx * dt;
+            this.vehicle.y += vy * dt;
+            this.vehicle.bobPhase += dt * 18;
+            this.vehicle.wheelPhase += dt * 16;
+
+            if (Math.abs(dx) > 4) {
+              this.vehicle.facing = dx >= 0 ? 1 : -1;
+            }
+          } else {
+            this.pointer.targetX = null;
+            this.pointer.targetY = null;
+          }
+        }
+
+        if (!isMoving) {
+          this.pointer.idleTimer += dt;
+        } else {
+          this.pointer.idleTimer = 0;
+        }
+
+        this.sound.updateEngine(dt, isMoving, this.stage === 4);
+
+        // Apply work to nearby tiles
+        this.processFieldWork();
+      }
+
+      processFieldWork() {
+        const targetStageDone = this.stage + 1;
+        const workRadius = Math.max(this.fieldRect.tileW, this.fieldRect.tileH) * 0.68;
+
+        let completedCount = 0;
+        for (const t of this.tiles) {
+          if (t.stageDone >= targetStageDone) {
+            completedCount++;
+            continue;
+          }
+
+          const d = Math.hypot(t.cx - this.vehicle.x, t.cy - this.vehicle.y);
+          if (d <= workRadius) {
+            this.completeTileWork(t, targetStageDone);
+            completedCount++;
+          }
+        }
+
+        // Gentle 92% auto-complete assist so 3-year-olds never get stuck on 1 corner tile
+        if (!this.autoCompleteTriggered && completedCount >= Math.ceil(this.tiles.length * 0.92)) {
+          this.autoCompleteTriggered = true;
+          const remaining = this.tiles.filter(t => t.stageDone < targetStageDone);
+          remaining.forEach((t, idx) => {
+            setTimeout(() => {
+              if (this.gameState === 'PLAYING' && t.stageDone < targetStageDone) {
+                this.completeTileWork(t, targetStageDone);
+                this.checkStageCompletion();
+              }
+            }, (idx + 1) * 85);
+          });
+        }
+
+        this.checkStageCompletion();
+      }
+
+      completeTileWork(tile, targetStageDone) {
+        tile.stageDone = targetStageDone;
+        tile.popAnim = 1;
+
+        if (this.stage === 0) {
+          // Cut weeds
+          this.sound.playCut();
+          this.spawnSparkles(tile.cx, tile.cy, '#65a30d', 7);
+        } else if (this.stage === 1) {
+          // Plow soil
+          this.sound.playPlow();
+          this.spawnSparkles(tile.cx, tile.cy, '#92400e', 7);
+        } else if (this.stage === 2) {
+          // Sow seeds
+          this.sound.playSeed();
+          this.spawnSparkles(tile.cx, tile.cy, '#fde047', 6);
+        } else if (this.stage === 3) {
+          // Watering
+          this.sound.playWater();
+          this.spawnWaterDrops(tile.cx, tile.cy);
+        } else if (this.stage === 4) {
+          // Harvest with Combine
+          this.sound.playHarvest(this.harvestCombo++);
+          this.spawnSparkles(tile.cx, tile.cy, this.currentCrop.color, 9);
+          this.flyingCrops.push({
+            startX: tile.cx,
+            startY: tile.cy,
+            endX: this.fieldRect.x + 36,
+            endY: (this.safeInsets.top || 0) + 36,
+            progress: 0
+          });
+        }
+      }
+
+      checkStageCompletion() {
+        if (this.gameState !== 'PLAYING') return;
+        const targetStageDone = this.stage + 1;
+        const allDone = this.tiles.every(t => t.stageDone >= targetStageDone);
+        if (!allDone) return;
+
+        this.pointer.targetX = null;
+        this.pointer.targetY = null;
+
+        if (this.stage === 3) {
+          // Watering complete -> Grow crops!
+          this.gameState = 'GROWING';
+          this.stateTimer = 0;
+          this.sound.playGrow();
+        } else if (this.stage === 4) {
+          // Harvest complete -> GOAL!
+          this.gameState = 'GOAL';
+          this.sound.playFanfare();
+          this.initConfetti();
+        } else {
+          // Advance to next tractor tool
+          this.gameState = 'STAGE_TRANSITION';
+          this.stateTimer = 0;
+          this.sound.playStageClear();
+        }
+      }
+
+      spawnSparkles(x, y, color, count = 8) {
+        for (let i = 0; i < count; i++) {
+          const angle = (Math.PI * 2 * i) / count + Math.random() * 0.5;
+          const speed = 55 + Math.random() * 95;
+          this.particles.push({
+            x,
+            y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 30,
+            gravity: 160,
+            r: 4 + Math.random() * 4,
+            color,
+            life: 0.45 + Math.random() * 0.25
+          });
+        }
+      }
+
+      spawnWaterDrops(x, y) {
+        for (let i = 0; i < 8; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 40 + Math.random() * 75;
+          this.particles.push({
+            x,
+            y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 40,
+            gravity: 210,
+            r: 4 + Math.random() * 3.5,
+            color: '#38bdf8',
+            life: 0.45 + Math.random() * 0.2
+          });
+        }
+      }
+
+      initConfetti() {
+        const colors = ['#ef4444', '#facc15', '#3b82f6', '#22c55e', '#ec4899', '#f97316'];
+        this.confetti = [];
+        for (let i = 0; i < 70; i++) {
+          this.confetti.push({
+            x: Math.random() * this.width,
+            y: Math.random() * this.height - this.height,
+            w: 10 + Math.random() * 8,
+            h: 6 + Math.random() * 6,
+            vy: 95 + Math.random() * 110,
+            phase: Math.random() * Math.PI * 2,
+            rot: Math.random() * Math.PI * 2,
+            vRot: (Math.random() - 0.5) * 6,
+            color: colors[i % colors.length]
+          });
+        }
+      }
+
+      // =========================================================================
+      // 5. RENDERING
+      // =========================================================================
+      draw() {
+        const ctx = this.ctx;
+        ctx.clearRect(0, 0, this.width, this.height);
+
+        // Background Meadow & Sky Strip
+        this.drawBackground(ctx);
+
+        // Farm Field Base
+        this.drawFieldFrame(ctx);
+
+        // Field Tiles (Weeds -> Soil -> Furrows -> Seeds -> Wet Soil -> Crops)
+        for (const t of this.tiles) {
+          this.drawTile(ctx, t);
+        }
+
+        // Touch Target Ring
+        if (this.gameState === 'PLAYING' && this.pointer.targetX !== null && this.pointer.targetY !== null) {
+          this.drawTargetRing(ctx, this.pointer.targetX, this.pointer.targetY);
+        }
+
+        // Idle Finger Guide (if child pauses > 2.8 seconds)
+        if (this.gameState === 'PLAYING' && this.pointer.idleTimer > 2.8) {
+          this.drawIdleGuide(ctx);
+        }
+
+        // Tractor or Combine Harvester
+        this.drawVehicle(ctx);
+
+        // Particles & Flying Harvested Crops
+        this.drawParticles(ctx);
+        this.drawFlyingCrops(ctx);
+
+        // Top HUD (Crop Icon + 5-Step Progress Bar + Mute Button)
+        this.drawTopHUD(ctx);
+
+        // Goal Celebration Overlay
+        if (this.gameState === 'GOAL') {
+          this.drawGoalOverlay(ctx);
+        }
+      }
+
+      drawBackground(ctx) {
+        // Lush green meadow
+        const bgGrad = ctx.createLinearGradient(0, 0, 0, this.height);
+        bgGrad.addColorStop(0, '#86efac');
+        bgGrad.addColorStop(0.25, '#7ec850');
+        bgGrad.addColorStop(1, '#56ab2f');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, this.width, this.height);
+
+        // Soft top sky band behind HUD
+        const skyH = this.fieldRect.y * 0.92;
+        const skyGrad = ctx.createLinearGradient(0, 0, 0, skyH);
+        skyGrad.addColorStop(0, '#38bdf8');
+        skyGrad.addColorStop(1, '#bae6fd');
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, this.width, skyH);
+
+        // Fluffy clouds
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+        for (const c of this.clouds) {
+          const cx = c.x * this.width;
+          const cy = c.y * this.height + (this.safeInsets.top || 0) * 0.4;
+          const s = c.s * Math.min(1, this.width / 800);
+          ctx.beginPath();
+          ctx.arc(cx, cy, 22 * s, 0, Math.PI * 2);
+          ctx.arc(cx + 22 * s, cy - 6 * s, 26 * s, 0, Math.PI * 2);
+          ctx.arc(cx + 46 * s, cy, 20 * s, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Decorative meadow flowers around edges
+        ctx.fillStyle = '#fef08a';
+        const flowerSpots = [
+          [0.02, 0.3], [0.025, 0.72], [0.975, 0.35], [0.97, 0.8]
+        ];
+        for (const [fx, fy] of flowerSpots) {
+          ctx.beginPath();
+          ctx.arc(fx * this.width, fy * this.height, 6, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      drawFieldFrame(ctx) {
+        const { x, y, w, h } = this.fieldRect;
+        const r = 22;
+
+        // Outer wooden fence border
+        ctx.fillStyle = '#b45309';
+        ctx.beginPath();
+        ctx.roundRect(x - 10, y - 10, w + 20, h + 20, r + 6);
+        ctx.fill();
+
+        // Inner soil base
+        ctx.fillStyle = '#d6a461';
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, r);
+        ctx.fill();
+      }
+
+      drawTile(ctx, t) {
+        const pad = 2;
+        const x = t.x + pad;
+        const y = t.y + pad;
+        const w = t.w - pad * 2;
+        const h = t.h - pad * 2;
+        const popScale = 1 + Math.sin(t.popAnim * Math.PI) * 0.12;
+
+        ctx.save();
+        ctx.translate(t.cx, t.cy);
+        ctx.scale(popScale, popScale);
+        ctx.translate(-t.cx, -t.cy);
+
+        // 1. Tile Ground Color
+        if (t.stageDone === 0) {
+          // Overgrown grassy ground
+          ctx.fillStyle = (t.r + t.c) % 2 === 0 ? '#65a30d' : '#4d7c0f';
+        } else if (t.stageDone === 1) {
+          // Cleared light dirt
+          ctx.fillStyle = (t.r + t.c) % 2 === 0 ? '#d9a05b' : '#c98e49';
+        } else if (t.stageDone >= 4) {
+          // Watered rich dark soil
+          ctx.fillStyle = (t.r + t.c) % 2 === 0 ? '#6b3e26' : '#5c331d';
+        } else {
+          // Plowed brown soil
+          ctx.fillStyle = (t.r + t.c) % 2 === 0 ? '#925634' : '#834b2b';
+        }
+
+        ctx.beginPath();
+        ctx.roundRect(x, y, w, h, 10);
+        ctx.fill();
+
+        // 2. Plowed Furrows (stageDone >= 2)
+        if (t.stageDone >= 2) {
+          ctx.strokeStyle = t.stageDone >= 4 ? 'rgba(42, 20, 8, 0.5)' : 'rgba(92, 48, 22, 0.45)';
+          ctx.lineWidth = 3;
+          ctx.lineCap = 'round';
+          for (let i = 1; i <= 3; i++) {
+            const fy = y + (h * i) / 4;
+            ctx.beginPath();
+            ctx.moveTo(x + 8, fy);
+            ctx.lineTo(x + w - 8, fy);
+            ctx.stroke();
+          }
+        }
+
+        // 3. Stage-specific vegetation
+        if (t.stageDone === 0) {
+          // Wild weeds & bushes
+          for (const wd of t.weeds) {
+            const wx = t.cx + wd.ox * w;
+            const wy = t.cy + wd.oy * h;
+            const sway = Math.sin(this.globalTime * 2.5 + wd.swayOffset) * 3;
+            if (wd.hasBush) {
+              ctx.fillStyle = '#15803d';
+              ctx.beginPath();
+              ctx.arc(wx, wy, Math.min(w, h) * 0.22, 0, Math.PI * 2);
+              ctx.fill();
+              ctx.fillStyle = '#22c55e';
+              ctx.beginPath();
+              ctx.arc(wx - 3, wy - 3, Math.min(w, h) * 0.14, 0, Math.PI * 2);
+              ctx.fill();
+            } else {
+              ctx.strokeStyle = '#166534';
+              ctx.lineWidth = 3.5;
+              ctx.lineCap = 'round';
+              const bh = Math.min(w, h) * 0.28 * wd.h;
+              ctx.beginPath();
+              ctx.moveTo(wx, wy + 4);
+              ctx.quadraticCurveTo(wx - 6, wy - bh * 0.5, wx - 10 + sway, wy - bh);
+              ctx.moveTo(wx, wy + 4);
+              ctx.quadraticCurveTo(wx + 6, wy - bh * 0.5, wx + 10 + sway, wy - bh);
+              ctx.stroke();
+            }
+          }
+        } else if (t.stageDone === 3 || (t.stageDone === 4 && t.growth === 0)) {
+          // Cute planted seeds
+          ctx.fillStyle = '#fef08a';
+          const offsets = [[-0.2, -0.15], [0.2, -0.15], [-0.2, 0.18], [0.2, 0.18]];
+          for (const [ox, oy] of offsets) {
+            ctx.beginPath();
+            ctx.ellipse(t.cx + ox * w, t.cy + oy * h, 5, 3.5, 0.3, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        } else if (t.stageDone === 4 && t.growth > 0) {
+          // Growing / Ripe Crop!
+          this.drawCropSprite(ctx, t.cx, t.cy, Math.min(w, h) * 0.42 * t.growth, this.currentCrop.id);
+        } else if (t.stageDone === 5) {
+          // Harvested neat stubble
+          ctx.fillStyle = '#eab308';
+          ctx.beginPath();
+          ctx.arc(t.cx - 8, t.cy + 4, 3, 0, Math.PI * 2);
+          ctx.arc(t.cx + 8, t.cy + 4, 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+
+      drawCropSprite(ctx, cx, cy, radius, cropId) {
+        if (radius < 2) return;
+        ctx.save();
+        ctx.translate(cx, cy);
+
+        if (cropId === 'rice') {
+          // Golden rice stalks
+          ctx.strokeStyle = '#65a30d';
+          ctx.lineWidth = Math.max(2, radius * 0.14);
+          ctx.lineCap = 'round';
+          for (const side of [-1, 0, 1]) {
+            ctx.beginPath();
+            ctx.moveTo(side * radius * 0.35, radius * 0.55);
+            ctx.quadraticCurveTo(side * radius * 0.5, -radius * 0.1, side * radius * 0.75, -radius * 0.45);
+            ctx.stroke();
+
+            ctx.fillStyle = '#facc15';
+            ctx.beginPath();
+            ctx.ellipse(side * radius * 0.75, -radius * 0.45, radius * 0.24, radius * 0.13, side * 0.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        } else if (cropId === 'tomato') {
+          // Plump red tomato
+          ctx.fillStyle = '#ef4444';
+          ctx.beginPath();
+          ctx.arc(0, radius * 0.08, radius * 0.72, 0, Math.PI * 2);
+          ctx.fill();
+          // Shine
+          ctx.fillStyle = 'rgba(255,255,255,0.45)';
+          ctx.beginPath();
+          ctx.arc(-radius * 0.24, -radius * 0.15, radius * 0.18, 0, Math.PI * 2);
+          ctx.fill();
+          // Green calyx
+          ctx.fillStyle = '#16a34a';
+          ctx.beginPath();
+          ctx.ellipse(0, -radius * 0.58, radius * 0.45, radius * 0.16, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (cropId === 'corn') {
+          // Yellow corn cob with green husks
+          ctx.fillStyle = '#facc15';
+          ctx.beginPath();
+          ctx.ellipse(0, 0, radius * 0.45, radius * 0.75, 0, 0, Math.PI * 2);
+          ctx.fill();
+          // Kernel grid dots
+          ctx.fillStyle = '#eab308';
+          ctx.beginPath();
+          ctx.arc(-radius * 0.14, -radius * 0.2, radius * 0.08, 0, Math.PI * 2);
+          ctx.arc(radius * 0.14, -radius * 0.2, radius * 0.08, 0, Math.PI * 2);
+          ctx.arc(-radius * 0.14, radius * 0.15, radius * 0.08, 0, Math.PI * 2);
+          ctx.arc(radius * 0.14, radius * 0.15, radius * 0.08, 0, Math.PI * 2);
+          ctx.fill();
+          // Green husks
+          ctx.fillStyle = '#22c55e';
+          ctx.beginPath();
+          ctx.ellipse(-radius * 0.36, radius * 0.28, radius * 0.22, radius * 0.55, -0.35, 0, Math.PI * 2);
+          ctx.ellipse(radius * 0.36, radius * 0.28, radius * 0.22, radius * 0.55, 0.35, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (cropId === 'strawberry') {
+          // Cute pink-red strawberry
+          ctx.fillStyle = '#f43f5e';
+          ctx.beginPath();
+          ctx.moveTo(-radius * 0.65, -radius * 0.35);
+          ctx.quadraticCurveTo(radius * 0.65, -radius * 0.35, 0, radius * 0.82);
+          ctx.quadraticCurveTo(-radius * 0.65, -radius * 0.35, -radius * 0.65, -radius * 0.35);
+          ctx.fill();
+          // Leaf crown
+          ctx.fillStyle = '#16a34a';
+          ctx.beginPath();
+          ctx.ellipse(0, -radius * 0.38, radius * 0.55, radius * 0.2, 0, 0, Math.PI * 2);
+          ctx.fill();
+          // Seeds
+          ctx.fillStyle = '#fef08a';
+          ctx.beginPath();
+          ctx.arc(-radius * 0.18, 0, radius * 0.06, 0, Math.PI * 2);
+          ctx.arc(radius * 0.18, 0, radius * 0.06, 0, Math.PI * 2);
+          ctx.arc(0, radius * 0.28, radius * 0.06, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+
+      drawTargetRing(ctx, x, y) {
+        const pulse = 1 + Math.sin(this.globalTime * 8) * 0.15;
+        ctx.save();
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(x, y, 22 * pulse, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      drawIdleGuide(ctx) {
+        const targetStageDone = this.stage + 1;
+        const nextTile = this.tiles.find(t => t.stageDone < targetStageDone);
+        if (!nextTile) return;
+
+        const bounce = Math.sin(this.globalTime * 6) * 8;
+        ctx.save();
+        ctx.translate(nextTile.cx, nextTile.cy + bounce);
+
+        // Glowing pulse circle
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+        ctx.beginPath();
+        ctx.arc(0, 0, 26, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Friendly pointing hand icon
+        ctx.fillStyle = '#ffffff';
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.roundRect(-8, -18, 16, 28, 8);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(0, 12, 13, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.restore();
+      }
+
+      drawVehicle(ctx) {
+        const { x, y, facing, bobPhase, wheelPhase, scale } = this.vehicle;
+        const bobY = Math.sin(bobPhase) * 2.5;
+        const baseSize = Math.min(this.fieldRect.tileW, this.fieldRect.tileH) * 0.72;
+
+        ctx.save();
+        ctx.translate(x, y + bobY);
+        ctx.scale(facing * scale, scale);
+
+        // Ground shadow
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.22)';
+        ctx.beginPath();
+        ctx.ellipse(0, baseSize * 0.42, baseSize * 0.65, baseSize * 0.18, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (this.stage === 4) {
+          this.drawCombineHarvester(ctx, baseSize, wheelPhase);
+        } else {
+          this.drawTractorWithAttachment(ctx, baseSize, wheelPhase, this.stage);
+        }
+
+        ctx.restore();
+      }
+
+      drawTractorWithAttachment(ctx, s, wheelPhase, stage) {
+        const pal = this.vehicleColor;
+
+        // Rear Attachment based on stage (0: Mower, 1: Plow, 2: Seeder, 3: Water Tank)
+        ctx.save();
+        ctx.translate(-s * 0.62, s * 0.12);
+        if (stage === 0) {
+          // Rotary grass mower
+          ctx.fillStyle = '#475569';
+          ctx.beginPath();
+          ctx.roundRect(-s * 0.28, -s * 0.1, s * 0.34, s * 0.26, 6);
+          ctx.fill();
+          ctx.fillStyle = '#94a3b8';
+          const bladeSpin = Math.sin(this.globalTime * 25) * s * 0.16;
+          ctx.fillRect(-s * 0.11 - bladeSpin, s * 0.14, bladeSpin * 2, 4);
+        } else if (stage === 1) {
+          // Plow blades
+          ctx.strokeStyle = '#334155';
+          ctx.lineWidth = 4;
+          ctx.beginPath();
+          ctx.moveTo(0, -s * 0.12);
+          ctx.lineTo(-s * 0.22, s * 0.18);
+          ctx.lineTo(-s * 0.08, s * 0.22);
+          ctx.stroke();
+        } else if (stage === 2) {
+          // Yellow seed hopper
+          ctx.fillStyle = '#facc15';
+          ctx.strokeStyle = '#a16207';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.roundRect(-s * 0.28, -s * 0.24, s * 0.3, s * 0.34, 6);
+          ctx.fill();
+          ctx.stroke();
+        } else if (stage === 3) {
+          // Blue water tank & sprinkler
+          ctx.fillStyle = '#38bdf8';
+          ctx.strokeStyle = '#0284c7';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.roundRect(-s * 0.32, -s * 0.26, s * 0.34, s * 0.34, 10);
+          ctx.fill();
+          ctx.stroke();
+        }
+        ctx.restore();
+
+        // Exhaust chimney
+        ctx.fillStyle = '#334155';
+        ctx.beginPath();
+        ctx.roundRect(s * 0.18, -s * 0.52, s * 0.1, s * 0.28, 3);
+        ctx.fill();
+
+        // Tractor Cabin
+        ctx.fillStyle = pal.main;
+        ctx.strokeStyle = pal.dark;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.roundRect(-s * 0.44, -s * 0.52, s * 0.52, s * 0.54, 10);
+        ctx.fill();
+        ctx.stroke();
+
+        // Cabin Window
+        ctx.fillStyle = '#e0f2fe';
+        ctx.beginPath();
+        ctx.roundRect(-s * 0.34, -s * 0.42, s * 0.34, s * 0.3, 6);
+        ctx.fill();
+
+        // Engine Hood
+        ctx.fillStyle = pal.main;
+        ctx.beginPath();
+        ctx.roundRect(-s * 0.02, -s * 0.22, s * 0.56, s * 0.42, 10);
+        ctx.fill();
+        ctx.stroke();
+
+        // Accent Stripe
+        ctx.fillStyle = '#facc15';
+        ctx.beginPath();
+        ctx.roundRect(s * 0.06, -s * 0.1, s * 0.4, s * 0.09, 4);
+        ctx.fill();
+
+        // Friendly Eye
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(s * 0.38, -s * 0.04, s * 0.11, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.arc(s * 0.41, -s * 0.04, s * 0.055, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Big Rear Wheel
+        this.drawWheel(ctx, -s * 0.25, s * 0.26, s * 0.27, wheelPhase);
+        // Smaller Front Wheel
+        this.drawWheel(ctx, s * 0.34, s * 0.32, s * 0.19, wheelPhase * 1.4);
+      }
+
+      drawCombineHarvester(ctx, s, wheelPhase) {
+        const pal = this.vehicleColor;
+
+        // Large Combine Body
+        ctx.fillStyle = pal.main;
+        ctx.strokeStyle = pal.dark;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.roundRect(-s * 0.56, -s * 0.46, s * 0.96, s * 0.68, 12);
+        ctx.fill();
+        ctx.stroke();
+
+        // Grain Unloading Pipe
+        ctx.fillStyle = pal.light;
+        ctx.beginPath();
+        ctx.roundRect(-s * 0.68, -s * 0.56, s * 0.48, s * 0.12, 5);
+        ctx.fill();
+
+        // Front Panoramic Cabin Window
+        ctx.fillStyle = '#e0f2fe';
+        ctx.beginPath();
+        ctx.roundRect(s * 0.06, -s * 0.38, s * 0.28, s * 0.3, 6);
+        ctx.fill();
+
+        // Front Rotating Header Reel
+        ctx.fillStyle = '#facc15';
+        ctx.strokeStyle = '#b45309';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.roundRect(s * 0.36, s * 0.02, s * 0.32, s * 0.34, 8);
+        ctx.fill();
+        ctx.stroke();
+
+        // Friendly Eye
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(s * 0.26, -s * 0.04, s * 0.1, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.arc(s * 0.29, -s * 0.04, s * 0.05, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Wheels
+        this.drawWheel(ctx, -s * 0.34, s * 0.32, s * 0.2, wheelPhase * 1.2);
+        this.drawWheel(ctx, s * 0.14, s * 0.28, s * 0.25, wheelPhase);
+      }
+
+      drawWheel(ctx, wx, wy, r, phase) {
+        ctx.save();
+        ctx.translate(wx, wy);
+        ctx.rotate(phase);
+
+        ctx.fillStyle = '#1e293b';
+        ctx.beginPath();
+        ctx.arc(0, 0, r, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#facc15';
+        ctx.beginPath();
+        ctx.arc(0, 0, r * 0.48, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#1e293b';
+        ctx.beginPath();
+        ctx.arc(r * 0.24, 0, r * 0.12, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+      }
+
+      drawParticles(ctx) {
+        for (const p of this.particles) {
+          ctx.globalAlpha = Math.max(0, Math.min(1, p.life * 2));
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      drawFlyingCrops(ctx) {
+        for (const fc of this.flyingCrops) {
+          const t = fc.progress;
+          const x = fc.startX + (fc.endX - fc.startX) * t;
+          const y = fc.startY + (fc.endY - fc.startY) * t - Math.sin(t * Math.PI) * 90;
+          const scale = 1 - t * 0.35;
+          this.drawCropSprite(ctx, x, y, 22 * scale, this.currentCrop.id);
+        }
+      }
+
+      drawTopHUD(ctx) {
+        const safeTop = (this.safeInsets && this.safeInsets.top) || 0;
+        const safeLeft = (this.safeInsets && this.safeInsets.left) || 0;
+        const hudH = (this.fieldRect.y - safeTop) * 0.88;
+        const centerY = safeTop + hudH * 0.5;
+
+        // Left: Current Crop Badge
+        const badgeR = Math.min(26, hudH * 0.38);
+        const badgeX = Math.max(40 + safeLeft, this.fieldRect.x + badgeR);
+        ctx.fillStyle = '#ffffff';
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(badgeX, centerY, badgeR, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        this.drawCropSprite(ctx, badgeX, centerY, badgeR * 0.68, this.currentCrop.id);
+
+        // Center: 5-Step Visual Progress Bar
+        const stepIcons = ['🌿', '🚜', '🌱', '💧', '🌾'];
+        const totalSteps = STAGE_COUNT;
+        const spacing = Math.min(64, (this.width - 220) / totalSteps);
+        const startX = this.width * 0.5 - ((totalSteps - 1) * spacing) * 0.5;
+
+        // Connecting track line
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.moveTo(startX, centerY);
+        ctx.lineTo(startX + (totalSteps - 1) * spacing, centerY);
+        ctx.stroke();
+
+        for (let i = 0; i < totalSteps; i++) {
+          const sx = startX + i * spacing;
+          const isDone = i < this.stage || this.gameState === 'GOAL';
+          const isCurrent = i === this.stage && this.gameState !== 'GOAL';
+          const r = isCurrent ? Math.min(23, hudH * 0.35) : Math.min(18, hudH * 0.28);
+
+          ctx.fillStyle = isDone ? '#22c55e' : isCurrent ? '#facc15' : '#ffffff';
+          ctx.strokeStyle = isDone ? '#15803d' : isCurrent ? '#d97706' : '#94a3b8';
+          ctx.lineWidth = isCurrent ? 4 : 3;
+          ctx.beginPath();
+          ctx.arc(sx, centerY, r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.font = `${Math.floor(r * 1.1)}px sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(isDone ? '⭐' : stepIcons[i], sx, centerY + 1);
+        }
+
+        // Right: Sound Mute/Unmute Button
+        const { x: mx, y: my, r: mr } = this.muteBtnRect;
+        ctx.fillStyle = '#ffffff';
+        ctx.strokeStyle = '#3b82f6';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.arc(mx, my, mr, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = `${Math.floor(mr * 1.05)}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(this.sound.muted ? '🔇' : '🔊', mx, my + 1);
+      }
+
+      drawGoalOverlay(ctx) {
+        // Confetti layer
+        for (const cf of this.confetti) {
+          ctx.save();
+          ctx.translate(cf.x, cf.y);
+          ctx.rotate(cf.rot);
+          ctx.fillStyle = cf.color;
+          ctx.fillRect(-cf.w * 0.5, -cf.h * 0.5, cf.w, cf.h);
+          ctx.restore();
+        }
+
+        // Soft backdrop card
+        const cardW = Math.min(620, this.width * 0.86);
+        const cardH = Math.min(310, this.height * 0.78);
+        const cardX = (this.width - cardW) * 0.5;
+        const cardY = (this.height - cardH) * 0.5 + 10;
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+        ctx.strokeStyle = '#facc15';
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.roundRect(cardX, cardY, cardW, cardH, 32);
+        ctx.fill();
+        ctx.stroke();
+
+        // Top celebration icons (3 Stars + Harvested Crop)
+        const topY = cardY + cardH * 0.22;
+        ctx.font = `${Math.floor(Math.min(44, cardH * 0.15))}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('🎉 ⭐ 🏆 ⭐ 🎉', this.width * 0.5, topY);
+
+        // Center Preview: Selected-Color Tractor & Next Crop Icon
+        const previewY = cardY + cardH * 0.5;
+        ctx.save();
+        ctx.translate(this.width * 0.38, previewY + 6);
+        this.drawTractorWithAttachment(ctx, Math.min(68, cardH * 0.24), this.globalTime * 4, 0);
+        ctx.restore();
+
+        // Arrow -> Next Crop Preview
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = 'bold 30px sans-serif';
+        ctx.fillText('➡', this.width * 0.54, previewY);
+
+        const nextBadgeR = Math.min(32, cardH * 0.11);
+        ctx.fillStyle = '#fef9c3';
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(this.width * 0.66, previewY, nextBadgeR, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        this.drawCropSprite(ctx, this.width * 0.66, previewY, nextBadgeR * 0.68, this.nextCrop.id);
+
+        // Bottom Row: 6 Color Buttons + Big Green Play Button
+        const bottomY = cardY + cardH * 0.8;
+        const colorSpacing = Math.min(54, (cardW * 0.62) / VEHICLE_PALETTE.length);
+        const colorsStartX = cardX + 38;
+        this.goalColorButtons = [];
+
+        VEHICLE_PALETTE.forEach((pal, idx) => {
+          const bx = colorsStartX + idx * colorSpacing;
+          const isSelected = this.vehicleColor.id === pal.id;
+          const r = isSelected ? 22 : 18;
+
+          this.goalColorButtons.push({ x: bx, y: bottomY, r: 22, palette: pal });
+
+          ctx.fillStyle = pal.main;
+          ctx.strokeStyle = isSelected ? '#0f172a' : '#ffffff';
+          ctx.lineWidth = isSelected ? 4.5 : 3;
+          ctx.beginPath();
+          ctx.arc(bx, bottomY, r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+
+          if (isSelected) {
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(bx, bottomY, 6, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        });
+
+        // Big Play / Next Game Button (Bottom Right of Card)
+        const playR = Math.min(36, cardH * 0.13);
+        const playX = cardX + cardW - playR - 26;
+        const pulse = 1 + Math.sin(this.globalTime * 6) * 0.06;
+        this.goalPlayButton = { x: playX, y: bottomY, r: playR };
+
+        ctx.save();
+        ctx.translate(playX, bottomY);
+        ctx.scale(pulse, pulse);
+
+        ctx.fillStyle = '#22c55e';
+        ctx.strokeStyle = '#15803d';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.arc(0, 0, playR, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        // White Play Triangle
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.moveTo(-playR * 0.26, -playR * 0.42);
+        ctx.lineTo(playR * 0.44, 0);
+        ctx.lineTo(-playR * 0.26, playR * 0.42);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.restore();
+      }
+    }
+
+    // =========================================================================
+    // 6. BOOTSTRAP
+    // =========================================================================
+    window.addEventListener('load', () => {
+      // Remove any injected Netlify Drawer elements if present
+      const removeInjectedOverlays = () => {
+        document.querySelectorAll('#netlify-drawer, iframe[src*="netlify"], [data-netlify-drawer]').forEach(el => el.remove());
+      };
+      removeInjectedOverlays();
+      const observer = new MutationObserver(removeInjectedOverlays);
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      const game = new FarmingGame();
+      let lastTime = performance.now();
+
+      function loop(now) {
+        const dt = Math.min(0.05, (now - lastTime) / 1000);
+        lastTime = now;
+
+        game.update(dt);
+        game.draw();
+
+        requestAnimationFrame(loop);
+      }
+
+      requestAnimationFrame(loop);
+    });
+  </script>
+</body>
+</html>
